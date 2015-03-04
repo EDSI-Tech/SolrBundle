@@ -233,17 +233,18 @@ class Solr
     }
 
     /**
-     * @param AbstractQuery $query
+     * @param AbstractQuery $originalQuery
      *
      * @return array of found documents
      */
-    public function query(AbstractQuery $query)
+    public function query(AbstractQuery $originalQuery)
     {
-        $entity = $query->getEntity();
+        $entity = $originalQuery->getEntity();
 
-        $queryString = $query->getQuery();
-        $query = $this->solrClientCore->createSelect($query->getOptions());
+        $queryString = $originalQuery->getQuery();
+        $query = $this->solrClientCore->createSelect($originalQuery->getOptions());
         $query->setQuery($queryString);
+        $query->addFilterQueries($originalQuery->getFilterQueries());
 
         try {
             $response = $this->solrClientCore->select($query);
