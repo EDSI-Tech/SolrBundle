@@ -120,6 +120,7 @@ class Solr
         $query = new SolrQuery();
         $query->setSolr($this);
         $query->setEntity($entity);
+        $query->setEndpoint($this->getClient()->getEndpoint($metaInformation->getDocumentName()));
 
         $query->setMappedFields($metaInformation->getFieldMapping());
 
@@ -247,7 +248,7 @@ class Solr
         $query->addFilterQueries($originalQuery->getFilterQueries());
 
         try {
-            $response = $this->solrClientCore->select($query);
+            $response = $this->solrClientCore->select($query, $originalQuery->getEndpoint());
         } catch (\Exception $e) {
             $errorEvent = new ErrorEvent(null, null, 'query solr');
             $errorEvent->setException($e);

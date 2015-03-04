@@ -2,6 +2,7 @@
 namespace FS\SolrBundle\Query;
 
 use FS\SolrBundle\Solr;
+use Solarium\Core\Client\Endpoint;
 use Solarium\QueryType\Select\Query\Query;
 use Solarium\QueryType\Update\Query\Document\Document;
 
@@ -22,6 +23,11 @@ abstract class AbstractQuery extends Query
      * @var object
      */
     private $entity = null;
+
+    /**
+     * @var Endpoint
+     */
+    private $endpoint = null;
 
     /**
      * @return the $entity
@@ -79,5 +85,21 @@ abstract class AbstractQuery extends Query
     public function setHydrationMode($mode)
     {
         $this->getSolr()->getMapper()->setHydrationMode($mode);
+    }
+
+    /**
+     * @return Endpoint
+     */
+    public function getEndpoint()
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * @param Endpoint $endpoint
+     */
+    public function setEndpoint($endpoint)
+    {
+        $this->endpoint = $endpoint;
     }
 }
