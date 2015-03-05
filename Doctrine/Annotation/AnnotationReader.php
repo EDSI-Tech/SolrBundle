@@ -3,6 +3,7 @@ namespace FS\SolrBundle\Doctrine\Annotation;
 
 use Doctrine\Common\Annotations\AnnotationReader as Reader;
 use ReflectionMethod;
+use ReflectionProperty;
 
 class AnnotationReader
 {
@@ -57,7 +58,7 @@ class AnnotationReader
     private function getMethodByType($entity, $type)
     {
         $reflectionClass = new \ReflectionClass($entity);
-        $methods = array_merge($reflectionClass->getMethods()); // TODO getParentMethods($reflectionClass));
+        $methods = array_merge($reflectionClass->getMethods(), $this->getParentMethods($reflectionClass));
 
         $fields = array();
         /** @var ReflectionMethod $method */
@@ -88,10 +89,25 @@ class AnnotationReader
     {
         $parent = $reflectionClass->getParentClass();
         if ($parent == null) {
-            return array();
+            return [];
         }
 
-        return $parent->getProperties();
+        return array_merge($parent->getProperties(ReflectionProperty::IS_PRIVATE), $this->getParentProperties($parent));
+    }
+
+    /**
+     * @param \ReflectionClass $reflectionClass
+     *
+     * @return \ReflectionProperty[]
+     */
+    private function getParentMethods(\ReflectionClass $reflectionClass)
+    {
+        $parent = $reflectionClass->getParentClass();
+        if ($parent == null) {
+            return [];
+        }
+
+        return array_merge($parent->getMethods(ReflectionProperty::IS_PRIVATE), $this->getParentMethods($parent));
     }
 
     /**
