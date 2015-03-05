@@ -7,4 +7,5 @@ class HydrationModes
 {
     const HYDRATE_INDEX = 'index';
     const HYDRATE_DOCTRINE = 'doctrine';
+    const HYDRATE_ARRAY = 'array';
 }

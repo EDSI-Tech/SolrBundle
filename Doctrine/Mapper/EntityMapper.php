@@ -80,6 +80,15 @@ class EntityMapper
         $metaInformationFactory = new MetaInformationFactory();
         $metaInformation = $metaInformationFactory->loadInformation($sourceTargetEntity);
 
+        if ($this->hydrationMode == HydrationModes::HYDRATE_ARRAY) {
+            $array = [];
+            foreach ($document as $key => $item) {
+                $array[$key] = $item;
+            }
+
+            return $array;
+        }
+
         $hydratedDocument = $this->indexHydrator->hydrate($document, $metaInformation);
         if ($this->hydrationMode == HydrationModes::HYDRATE_INDEX) {
             return $hydratedDocument;
