@@ -24,6 +24,11 @@ class MetaInformation
     /**
      * @var array
      */
+    private $readOnlyFields = [];
+
+    /**
+     * @var array
+     */
     private $fields = array();
 
     /**
@@ -274,5 +279,21 @@ class MetaInformation
     public function getIndex()
     {
         return $this->index;
+    }
+
+    /**
+     * @return array
+     */
+    public function getReadOnlyFields()
+    {
+        return $this->readOnlyFields;
+    }
+
+    /**
+     * @param array $readOnlyFields
+     */
+    public function setReadOnlyFields($readOnlyFields)
+    {
+        $this->readOnlyFields = $readOnlyFields;
     }
 }

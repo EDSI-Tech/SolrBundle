@@ -19,7 +19,7 @@ class MapAllFieldsCommand extends AbstractDocumentCommand
      */
     public function createDocument(MetaInformation $meta)
     {
-        $fields = $meta->getFields();
+        $fields = array_merge( $meta->getFields(), $meta->getReadOnlyFields() );
         if (count($fields) == 0) {
             return null;
         }
