@@ -71,7 +71,7 @@ class AnnotationReader
 
             $method->setAccessible(true);
             $annotation->value = $method->invoke($entity);
-            $annotation->name = preg_replace('/get/', '', $method->getName(), 1);
+            $annotation->name = lcfirst(preg_replace('/get/', '', $method->getName(), 1));
             $annotation->type = 'read_only';
 
             $fields[] = $annotation;
@@ -217,7 +217,7 @@ class AnnotationReader
      */
     public function getFieldMapping($entity)
     {
-        $fields = $this->getPropertiesByType($entity, self::FIELD_CLASS);
+        $fields = array_merge($this->getPropertiesByType($entity, self::FIELD_CLASS), $this->getMethodByType($entity, self::FIELD_CLASS));
 
         $mapping = array();
         foreach ($fields as $field) {
