@@ -230,7 +230,9 @@ class Solr
             throw new \BadMethodCallException(sprintf('unknown method %s in entity %s', $callback, get_class($entity)));
         }
 
-        return $entity->$callback();
+        $shouldIndex = $entity->$callback();
+
+        return $shouldIndex;
     }
 
     /**
@@ -318,6 +320,10 @@ class Solr
     public function updateDocument($entity)
     {
         $metaInformations = $this->metaInformationFactory->loadInformation($entity);
+
+        if (!$this->addToIndex($metaInformations, $entity)) {
+            return false;
+        }
 
         $doc = $this->toDocument($metaInformations);
 
