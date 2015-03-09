@@ -71,10 +71,13 @@ class AnnotationReader
 
             $method->setAccessible(true);
             $annotation->value = $method->invoke($entity);
-            $annotation->name = lcfirst(preg_replace('/get/', '', $method->getName(), 1));
 
-            if ($annotation->type == null) {
-                $annotation->type = 'read_only';
+            if ($annotation->name == null) {
+                $annotation->name = lcfirst(preg_replace('/get/', '', $method->getName(), 1));
+            }
+
+            if ($annotation->type === null) {
+                $annotation->type = 'text';
             }
 
             $fields[] = $annotation;

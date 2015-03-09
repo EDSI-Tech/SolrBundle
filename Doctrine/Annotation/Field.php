@@ -35,8 +35,7 @@ class Field extends Annotation
         'integer' => '_i',
         'long' => '_l',
         'float' => '_f',
-        'double' => '_d',
-        'read_only' => '_t'
+        'double' => '_d'
     );
 
     /**
