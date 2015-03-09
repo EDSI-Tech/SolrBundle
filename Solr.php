@@ -322,6 +322,7 @@ class Solr
         $metaInformations = $this->metaInformationFactory->loadInformation($entity);
 
         if (!$this->addToIndex($metaInformations, $entity)) {
+            $this->removeDocument($entity);
             return false;
         }
 
