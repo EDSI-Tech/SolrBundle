@@ -20,7 +20,7 @@ class Field extends Annotation
     public $name;
 
     /**
-     * @var numeric
+     * @var float
      */
     public $boost = 0;
 
@@ -107,7 +107,7 @@ class Field extends Annotation
      * contain only lowercase characters and underscores to maintain
      * retro compatibility with old components).
      *
-     * @param $name The field name
+     * @param string $name The field name
      *
      * @return string normalized field name
      */
