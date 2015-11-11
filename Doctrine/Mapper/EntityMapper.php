@@ -77,8 +77,16 @@ class EntityMapper
             throw new \InvalidArgumentException('$sourceTargetEntity should not be null');
         }
 
-        $metaInformationFactory = new MetaInformationFactory();
-        $metaInformation = $metaInformationFactory->loadInformation($sourceTargetEntity);
+        // "loadInformation" is heavy, so we cache it!
+        static $metaCache = [];
+        if (isset($metaCache[get_class($sourceTargetEntity)])) {
+            $metaInformation = $metaCache[get_class($sourceTargetEntity)];
+        } else {
+            $metaInformationFactory = new MetaInformationFactory();
+            $metaInformation
+                = $metaCache[get_class($sourceTargetEntity)]
+                = $metaInformationFactory->loadInformation($sourceTargetEntity);
+        }
 
         if ($this->hydrationMode == HydrationModes::HYDRATE_ARRAY) {
             $array = [];
