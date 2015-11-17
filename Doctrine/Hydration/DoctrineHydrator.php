@@ -42,9 +42,7 @@ class DoctrineHydrator implements Hydrator
             ->getRepository($metaInformation->getClassName())
             ->find($entityId);
 
-        if ($doctrineEntity !== null) {
-            $metaInformation->setEntity($doctrineEntity);
-        }
+        $metaInformation->setEntity($doctrineEntity);
 
         return $this->valueHydrator->hydrate($document, $metaInformation);
     }

@@ -31,9 +31,11 @@ class IndexHydrator implements Hydrator
     public function hydrate($document, MetaInformation $metaInformation)
     {
         $sourceTargetEntity = $metaInformation->getEntity();
-        $targetEntity = clone $sourceTargetEntity;
 
-        $metaInformation->setEntity($targetEntity);
+        if ($sourceTargetEntity !== null) {
+            $targetEntity = clone $sourceTargetEntity;
+            $metaInformation->setEntity($targetEntity);
+        }
 
         return $this->valueHydrator->hydrate($document, $metaInformation);
     }

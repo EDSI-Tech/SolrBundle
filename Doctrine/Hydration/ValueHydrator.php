@@ -16,22 +16,26 @@ class ValueHydrator implements Hydrator
     {
         $targetEntity = $metaInformation->getEntity();
 
-        $reflectionClass = new \ReflectionClass($targetEntity);
-        foreach ($document as $property => $value) {
-            try {
-                $classProperty = $reflectionClass->getProperty($this->removeFieldSuffix($property));
-            } catch (\ReflectionException $e) {
+        try {
+            $reflectionClass = new \ReflectionClass($targetEntity);
+            foreach ($document as $property => $value) {
                 try {
-                    $classProperty = $reflectionClass->getProperty(
-                        $this->toCamelCase($this->removeFieldSuffix($property))
-                    );
+                    $classProperty = $reflectionClass->getProperty($this->removeFieldSuffix($property));
                 } catch (\ReflectionException $e) {
-                    continue;
+                    try {
+                        $classProperty = $reflectionClass->getProperty(
+                            $this->toCamelCase($this->removeFieldSuffix($property))
+                        );
+                    } catch (\ReflectionException $e) {
+                        continue;
+                    }
                 }
-            }
 
-            $classProperty->setAccessible(true);
-            $classProperty->setValue($targetEntity, $value);
+                $classProperty->setAccessible(true);
+                $classProperty->setValue($targetEntity, $value);
+            }
+        } catch (\ReflectionException $oops) {
+            // Can't hydrate document
         }
 
         return $targetEntity;
