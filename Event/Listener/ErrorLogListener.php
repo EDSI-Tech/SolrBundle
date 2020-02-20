@@ -3,6 +3,7 @@ namespace FS\SolrBundle\Event\Listener;
 
 use FS\SolrBundle\Event\ErrorEvent;
 use FS\SolrBundle\Event\Event;
+use Symfony\Component\VarDumper\VarDumper;
 
 class ErrorLogListener extends AbstractLogListener
 {
@@ -13,6 +14,7 @@ class ErrorLogListener extends AbstractLogListener
         $exceptionMessage = '';
         if ($event instanceof ErrorEvent) {
             $exceptionMessage = $event->getExceptionMessage();
+
         }
 
         $this->logger->error(

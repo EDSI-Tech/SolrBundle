@@ -3,9 +3,11 @@
 namespace FS\SolrBundle\Client;
 
 use FS\SolrBundle\Query\FindByIdentifierQuery;
+use Solarium\Core\Query\AbstractDocument;
 use Solarium\Core\Query\QueryInterface;
 use Solarium\QueryType\Update\Query\Document\DocumentInterface;
 use \Solarium\Client as SolariumClient;
+use Symfony\Component\VarDumper\VarDumper;
 
 /**
  * Wrapper class for \Solarium\Client to perform actions on multiple cores
@@ -69,6 +71,7 @@ class Client
      */
     private function applyQuery(QueryInterface $query, $index)
     {
+
         if ($index == '*') {
             $this->applyOnAllCores($query);
         } else {

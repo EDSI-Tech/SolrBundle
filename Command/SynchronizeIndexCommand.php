@@ -7,6 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\VarDumper\VarDumper;
 
 class SynchronizeIndexCommand extends ContainerAwareCommand
 {
@@ -47,7 +48,7 @@ class SynchronizeIndexCommand extends ContainerAwareCommand
             return;
         }
 
-        $solr = $this->getContainer()->get('solr.client');
+        $solr = $this->getContainer()->get('solr.client_alias');
 
         foreach ($entities as $entity) {
             try {

@@ -8,7 +8,7 @@ class FindByIdentifierQuery extends AbstractQuery
      * @return string
      * @throws \RuntimeException when id or document_name is null
      */
-    public function getQuery()
+    public function getQuery(): ?string
     {
         $idField = $this->document->id;
         $documentNameField = $this->document->document_name_s;
